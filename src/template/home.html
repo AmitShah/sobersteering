@@ -86,6 +86,7 @@
     	$(function(){
     		var ws = new WebSocket('ws://localhost:9999/update');
 			var bid = $('#bid');
+			var bytes = 0;
 			ws.onopen = function()
 		    {
 		        // Web Socket is connected, send data using send()
@@ -97,7 +98,13 @@
 		     try{
 		       		var data = $.parseJSON(event.data);
 			       	if(data !== null){
-			       		bid.html(data);
+			       		if(parseInt(data)!==NaN){
+			       			bytes+=parseInt(data);
+			       			bid.html('bytes transferred:'+bytes);
+			       		}
+			       		else{
+			       			bid.html('events:'+data);
+			       		}
 			       	}
 			       	
 		       }catch(err)

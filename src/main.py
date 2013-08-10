@@ -10,7 +10,7 @@ import os,tornado
 from tornado.httpserver import HTTPServer
 from tornado.websocket import WebSocketHandler
 import sys
-from threading import Thread
+import threading
 
 class Observer(object):
     def __init__(self):
@@ -93,15 +93,16 @@ if __name__ == '__main__':
     s = ssl.wrap_socket(sock)
     s.connect(('developers.polairus.com',443))    
     s.sendall(CRLF.join(request))
-    generator = linesplit(s)            
+    #generator = linesplit(s)            
     
-    
-    def process():
-        data = generator.next()
-        UpdateHandler.observer.notify(data)
-    
+    def process():        
+        for l in linesplit(s):
+            UpdateHandler.observer.notify(l)
+        
+    t = threading.Thread(target=process)
+    t.start()
     ioloop = tornado.ioloop.IOLoop.instance()
-    pc = tornado.ioloop.PeriodicCallback(process,1000,io_loop=ioloop)
+    #pc = tornado.ioloop.PeriodicCallback(periodic_func,10,io_loop=ioloop)
     
     
     settings = dict(
@@ -119,6 +120,6 @@ if __name__ == '__main__':
     server = HTTPServer(application)
     server.add_sockets(sockets)
     
-    pc.start()
+    #pc.start()
     ioloop.start()
     
