@@ -33,26 +33,48 @@ class Observer(object):
 
 class UpdateHandler(WebSocketHandler):
     
-    def initialize(self,observer):
-        self.observer= observer
-        pass
-    
+    def initialize(self,generator):
+        self.generator = generator
+        
+        
+    def loop(self):
+        try:
+            data = self.generator.next()
+            self.on_message(data)
+            tornado.ioloop.IOLoop.instance().add_callback(self.loop)
+        except:
+            pass
+        
+
     def open(self):
-        self.observer.attach(self)
+        tornado.ioloop.IOLoop.instance().add_callback(self.loop)
         
     def on_message(self, message):
         self.write_message(message)
 
     def on_close(self):
         self.close()
-        self.observer.detach(self)
         
-    def __call__(self,message=None):
-        self.on_message(message)
-
+'''
+class UpdateHandler(tornado.web.RequestHandler):
+    def initialize(self,generator):
+        self.generator = generator
+        
+    @tornado.web.asynchronous
+    def get(self):
+        tornado.ioloop.IOLoop.instance().add_callback(self.loop)
+        
+    def loop(self):
+        try:
+            data = self.generator.next()
+            self.write(data)
+            tornado.ioloop.IOLoop.instance().add_callback(self.loop)
+        except:
+            pass
+        
+'''    
 
 class MainHandler(tornado.web.RequestHandler):
-    @tornado.web.authenticated
     def get(self):
         self.render('home.html')
                 
@@ -96,18 +118,9 @@ if __name__ == '__main__':
     s.connect(('developers.polairus.com',443))    
     s.sendall(CRLF.join(request))
     
-    def process():
-        for l in linesplit(s):
-            observer.notify(l)
-    
-        
-    t = Thread(target=process)
-    t.start()
-    
-    observer= Observer()    
-
     services = dict(
-        observer = observer
+        #observer = observer,
+        generator = linesplit(s)
         )
     settings = dict(
         template_path=os.path.join(os.path.dirname(__file__), "template"),
@@ -124,3 +137,4 @@ if __name__ == '__main__':
     server = HTTPServer(application)
     server.add_sockets(sockets)
     tornado.ioloop.IOLoop.instance().start()
+
