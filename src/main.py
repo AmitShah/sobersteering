@@ -32,47 +32,21 @@ class Observer(object):
 
 
 class UpdateHandler(WebSocketHandler):
-    
-    def initialize(self,generator):
-        self.generator = generator
-        
-        
-    def loop(self):
-        try:
-            data = self.generator.next()
-            self.on_message(data)
-            tornado.ioloop.IOLoop.instance().add_callback(self.loop)
-        except:
-            pass
-        
+    observer = Observer()
 
     def open(self):
-        tornado.ioloop.IOLoop.instance().add_callback(self.loop)
+        UpdateHandler.observer.attach(self)
+        #tornado.ioloop.IOLoop.instance().add_timeout(0.01,  self.loop)
         
     def on_message(self, message):
         self.write_message(message)
 
     def on_close(self):
-        self.close()
+        UpdateHandler.observer.detach(self)
         
-'''
-class UpdateHandler(tornado.web.RequestHandler):
-    def initialize(self,generator):
-        self.generator = generator
-        
-    @tornado.web.asynchronous
-    def get(self):
-        tornado.ioloop.IOLoop.instance().add_callback(self.loop)
-        
-    def loop(self):
-        try:
-            data = self.generator.next()
-            self.write(data)
-            tornado.ioloop.IOLoop.instance().add_callback(self.loop)
-        except:
-            pass
-        
-'''    
+    
+    def __call__(self,message=None):
+        self.on_message(message)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
@@ -97,6 +71,7 @@ if __name__ == '__main__':
                '',
                '',
                ]
+    
     def linesplit(socket):
         # untested
         buffer = socket.recv(4096)
@@ -113,15 +88,22 @@ if __name__ == '__main__':
                     buffer = buffer+more
         if buffer:
             yield buffer
+            
     sock = socket.socket()    
     s = ssl.wrap_socket(sock)
     s.connect(('developers.polairus.com',443))    
     s.sendall(CRLF.join(request))
+    generator = linesplit(s)            
     
-    services = dict(
-        #observer = observer,
-        generator = linesplit(s)
-        )
+    
+    def process():
+        data = generator.next()
+        UpdateHandler.observer.notify(data)
+    
+    ioloop = tornado.ioloop.IOLoop.instance()
+    pc = tornado.ioloop.PeriodicCallback(process,1000,io_loop=ioloop)
+    
+    
     settings = dict(
         template_path=os.path.join(os.path.dirname(__file__), "template"),
         static_path=os.path.join(os.path.dirname(__file__), "static"),
@@ -129,12 +111,14 @@ if __name__ == '__main__':
         login_url='/login'
         )  
     application = tornado.web.Application([
-    (r"/update", UpdateHandler,services),
+    (r"/update", UpdateHandler),
     (r"/", MainHandler)       
     ], **settings)
     
     sockets = tornado.netutil.bind_sockets(9999)
     server = HTTPServer(application)
     server.add_sockets(sockets)
-    tornado.ioloop.IOLoop.instance().start()
-
+    
+    pc.start()
+    ioloop.start()
+    
