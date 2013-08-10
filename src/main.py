@@ -9,7 +9,7 @@ import ssl,socket,sys
 import os,tornado
 from tornado.httpserver import HTTPServer
 from tornado.websocket import WebSocketHandler
-import sys
+import sys,functools
 import threading
 
 class Observer(object):
@@ -52,7 +52,7 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('home.html')
                 
-     
+    
 if __name__ == '__main__':
     
     api = Api(token='a8joj2YQbNagavsVVxy61NESKk+96IutuUKl7f/5',
@@ -73,7 +73,7 @@ if __name__ == '__main__':
                ]
     
     def linesplit(socket):
-        # untested
+        
         buffer = socket.recv(4096)
         done = False
         while not done:
@@ -95,13 +95,15 @@ if __name__ == '__main__':
     s.sendall(CRLF.join(request))
     #generator = linesplit(s)            
     
-    def process():        
-        for l in linesplit(s):
-            UpdateHandler.observer.notify(l)
-        
-    t = threading.Thread(target=process)
-    t.start()
+    def data_handler(sock,fd,events):
+        data = sock.recv(4096)
+        UpdateHandler.observer.notify(data)
+        pass
+
+    callback = functools.partial(data_handler, s)
     ioloop = tornado.ioloop.IOLoop.instance()
+    ioloop.add_handler(s.fileno(), callback, ioloop.READ)
+
     #pc = tornado.ioloop.PeriodicCallback(periodic_func,10,io_loop=ioloop)
     
     
