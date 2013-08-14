@@ -19,7 +19,7 @@
   <body>
 
     <!-- Fixed navbar -->
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top navbar-inverse off">
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
           <span class="icon-bar"></span>
@@ -55,28 +55,27 @@
     </div>
     
     <section id="intro" data-speed="2" data-type="background" style="overflow: hidden;">
-    	<img data-speed="4" data-type="foreground" src="{{static_url('img/bus_monochrome.png')}}" style="position:absolute;height: 500px; bottom: 30px; right: 0; z-index: 1;" />
+    	<!--img data-speed="4" data-type="foreground" src="{{static_url('img/bus_monochrome.png')}}" style="position:absolute;height: 500px; bottom: 30px; right: 0; z-index: 1;" /-->
     	<div class="container" style="position: relative; z-index: 2;">
     		<h1 style="font-size: 64pt;">Sober Steering</h1>
     		<h2>Technology to prevent drunk driving.</h2>
     		<p>
-			  <button type="button" class="btn btn-primary btn-large learn-more">Large button</button>
+			  <button type="button" class="btn btn-primary btn-large learn-more">Learn More</button>
 			</p>
     	</div>
     </section>
 
-    <div class="container">
-
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
+    <!-- Main component for a primary marketing message or call to action -->
+    <div id="map" class="map">
         <h1>Map Goes Here!</h1>
         <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
         <p>
           <a class="btn btn-large btn-primary" href="../../docs/#navbar">View navbar docs &raquo;</a>
         </p>
-      </div>
+        
+    </div>
 
-    </div> <!-- /container -->
+    
 	<div class="container marketing">
       <!-- START THE FEATURETTES -->
 
@@ -87,15 +86,15 @@
         <p class="lead">Last reported at <span class="strong">5:13 pm</span> with a speed of <span class="strong">36 km/h</span>.<br />The driver was last tested at <span class="strong">5:00 pm</span> and is <span class="strong">sober</span>.</p>
       </div>
       
-      <div class="featurette">
-        <img class="featurette-image img-circle pull-right" alt="512x512" src="{{static_url('img/bus.jpg')}}" style="width: 175px; height: 175px;">		
+      <div class="featurette right">
+        <img class="featurette-image img-circle" alt="512x512" src="{{static_url('img/bus.jpg')}}" style="width: 175px; height: 175px;">		
         <h2 class="featurette-heading">Bus Two, <span class="text-muted">York Region District</span></h2>
         <p class="lead">Last reported at <span class="strong">5:13 pm</span> with a speed of <span class="strong" style="color: red;">134 km/h</span>.<br />The driver was last tested at <span class="strong">5:00 pm</span> and is <span class="strong" style="color: red;">over the limit</span>.</p>
       </div>
 
       <div class="featurette">
         <img class="featurette-image img-circle pull-left" alt="512x512" src="{{static_url('img/bus.jpg')}}" style="width: 175px; height: 175px;">		
-        <h2 class="featurette-heading">Bus One, <span class="text-muted">Waterloo Region District</span></h2>
+        <h2 class="featurette-heading">Bus Three, <span class="text-muted">Waterloo Region District</span></h2>
         <p class="lead">Last reported at <span class="strong">5:13 pm</span> with a speed of <span class="strong">36 km/h</span>.<br />The driver was last tested at <span class="strong">5:00 pm</span> and is <span class="strong">sober</span>.</p>
       </div>
       <!-- /END THE FEATURETTES -->
@@ -109,6 +108,7 @@
 
     </div><!-- /.container -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>    
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0Tkk9Gd8ploPqjDWEV1-hupHmKT68f0M&sensor=false"></script>
 	<script src="{{static_url('js/bootstrap.js')}}"></script>
     <script src="{{static_url('js/holder.js')}}"></script>
     <script type="text/javascript">
@@ -150,6 +150,46 @@
 	        $scroll.css({ bottom: coords });    
 	      }); // end window scroll
 	   });  // end section function
+	   
+	   //MAP Styling Custom
+	   var styles = [ { "featureType": "landscape", "stylers": [ { "color": "#dddddd" }, { "visibility": "simplified" }, { "saturation": 1 }, 
+
+{ "lightness": 45 } ] },{ "featureType": "road", "elementType": "geometry", "stylers": [ { "visibility": "simplified" }, { 
+
+"color": "#ffffff" } ] },{ "featureType": "road", "elementType": "labels.text", "stylers": [ { "visibility": "on" } ] },{ 
+
+"featureType": "poi", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },{ "featureType": "water", 
+
+"stylers": [ { "color": "#c8c8c8" } ] },{ "featureType": "road.highway", "elementType": "labels", "stylers": [ { 
+
+"visibility": "off" } ] },{ "featureType": "poi", "stylers": [ { "visibility": "off" } ] },{ "featureType": 
+
+"road.arterial", "stylers": [ { "visibility": "off" } ] },{ "featureType": "transit", "stylers": [ { "visibility": "off" } 
+
+] },{ "featureType": "administrative.country", "elementType": "geometry.stroke", "stylers": [ { "visibility": "simplified" 
+
+}, { "color": "#ffffff" } ] },{ "featureType": "administrative.neighborhood", "elementType": "labels", "stylers": [ { 
+
+"visibility": "off" } ] },{ "featureType": "landscape", "elementType": "geometry", "stylers": [ { "weight": 0.1 }, { 
+
+"visibility": "simplified" }, { "color": "#dddddd" }, { "lightness": 45 } ] },{ "featureType": "administrative",
+
+"elementType": "labels.text", "stylers": [ { "weight": 0.1 }, { "color": "#787878" } ] },{ "featureType": 
+
+"administrative", "elementType": "labels.icon", "stylers": [ { "visibility": "off" } ] }];
+	   
+	   
+	   var mapOptions = {
+          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          styles:styles,
+          scrollwheel:false
+        };
+        var map = new google.maps.Map(document.getElementById("map"),
+            mapOptions);
+       
+	   
 	   
 	}); // close out script
     </script>

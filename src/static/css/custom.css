@@ -73,18 +73,19 @@ body {
 }
 
 #intro { 
-    background: url(../img/background_monochrome.png) 50% 0 fixed; 
+    background: url(../img/bus_friendly.jpg) 50% 0 fixed; 
     height: auto;  
     margin: 0 auto; 
     width: 100%; 
     position: relative; 
-    padding-top: 30px;
-    padding-bottom: 520px;
+    padding-top: 285px;
+    padding-bottom: 285px;
     text-align: center;
     background-size: cover;
-    background-repeat: no-repeat;
-    margin-top: -10px;
+    background-repeat: no-repeat;    
     color: white;
+    
+     
 }
 
 
@@ -97,6 +98,15 @@ body {
 .featurette {
   /*padding-top: 40px;*/ /* Vertically center images part 1: add padding above and below text. */
   overflow: hidden; /* Vertically center images part 2: clear their floats. */
+}
+
+.featurette.right {
+	text-align: right;
+}
+
+.featurette.right .featurette-image {
+	float: right;
+	margin-right: 40px;
 }
 .featurette-image {
   margin: 20px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
@@ -154,3 +164,12 @@ span.strong {
 
 }
 
+/* MAP CSS
+-------------------------------------------------- */
+.map {
+	width:100%;
+	margin:0;
+	padding:0;
+	height:600px;
+
+}
