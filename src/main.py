@@ -113,8 +113,8 @@ if __name__ == '__main__':
     s = ssl.wrap_socket(sock)
         
     def connect_to_service():        
-        #s.connect(('developers.polairus.com',443))    
-        #s.sendall(CRLF.join(request))
+        s.connect(('developers.polairus.com',443))    
+        s.sendall(CRLF.join(request))
         pass
     
     def data_handler(sock,fd,events):
