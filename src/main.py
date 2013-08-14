@@ -74,20 +74,21 @@ class UpdateHandler(WebSocketHandler):
         #tornado.ioloop.IOLoop.instance().add_timeout(0.01,  self.loop)
         
     def on_message(self, message):
-        self.write_message(message)
-
+        pass
+    
     def on_close(self):
         UpdateHandler.observer.detach(self)
         
-    
+    def broadcast_as_json(self,message):
+        self.write_message(json.encoder.encode_basestring(message))
+
     def __call__(self,message=None):
-        self.on_message(message)
+        self.broadcast_as_json(message)
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render('home.html')
+        self.render('index.html')
                 
-    
 if __name__ == '__main__':
     
     api = Api(token='a8joj2YQbNagavsVVxy61NESKk+96IutuUKl7f/5',
@@ -112,8 +113,9 @@ if __name__ == '__main__':
     s = ssl.wrap_socket(sock)
         
     def connect_to_service():        
-        s.connect(('developers.polairus.com',443))    
-        s.sendall(CRLF.join(request))
+        #s.connect(('developers.polairus.com',443))    
+        #s.sendall(CRLF.join(request))
+        pass
     
     def data_handler(sock,fd,events):
         try:
