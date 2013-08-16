@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Fixed Top Navbar Example for Bootstrap</title>
+    <title>Sober Steering</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{static_url('css/bootstrap.css')}}" rel="stylesheet">
@@ -16,107 +16,202 @@
     <link href="{{static_url('css/navbar.css')}}" rel="stylesheet">
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#navbar" data-offset="50">
 
     <!-- Fixed navbar -->
-    <div class="navbar navbar-fixed-top navbar-inverse off">
-      <div class="container">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Project name</a>
-        <div class="nav-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="nav-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav pull-right">
-            <li><a href="/examples/navbar/">Default</a></li>
-            <li><a href="/examples/navbar-static-top/">Static top</a></li>
-            <li class="active"><a href="/examples/navbar-fixed-top/">Fixed top</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+   <div id="navbar" class="navbar navbar-fixed-top navbar-inverse">
+     <div class="container">
+       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="#">Sober Steering</a>
+       <div class="nav-collapse collapse">
+         <ul class="nav navbar-nav">
+           <li class="active"><a href="#intro">Home</a></li>
+           <li><a href="#map">Map</a></li>
+           <li><a href="#featurettes">Buses</a></li>
+           <!--
+           <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+             <ul class="dropdown-menu">
+               <li><a href="#">Action</a></li>
+               <li><a href="#">Another action</a></li>
+               <li><a href="#">Something else here</a></li>
+               <li class="divider"></li>
+               <li class="nav-header">Nav header</li>
+               <li><a href="#">Separated link</a></li>
+               <li><a href="#">One more separated link</a></li>
+             </ul>
+           </li>
+         </ul>
+         <ul class="nav navbar-nav pull-right">
+           <li><a href="/examples/navbar/">Default</a></li>
+           <li><a href="/examples/navbar-static-top/">Static top</a></li>
+           <li class="active"><a href="/examples/navbar-fixed-top/">Fixed top</a></li>
+         </ul>-->
+       </div><!--/.nav-collapse -->
+     </div>
+   </div>
+
+   <div style="margin-top: 50px;">
     
-    <section id="intro" data-speed="2" data-type="background" style="overflow: hidden;">
+    <section id="intro" data-speed="2" data-type="background" style="overflow: hidden;" nav-section="1">
     	<!--img data-speed="4" data-type="foreground" src="{{static_url('img/bus_monochrome.png')}}" style="position:absolute;height: 500px; bottom: 30px; right: 0; z-index: 1;" /-->
     	<div class="container" style="position: relative; z-index: 2;">
     		<h1 style="font-size: 64pt;">Sober Steering</h1>
-    		<h2>Technology to prevent drunk driving.</h2>
+    		<h2>Learn how Sober Steering's technology can keep the roads safe.</h2>
     		<p>
-			  <button type="button" class="btn btn-primary btn-large learn-more">Learn More</button>
-			</p>
+  			  <a class="btn btn-primary btn-large learn-more" href="http://sobersteering.com/">Learn More</a>
+  			</p>
     	</div>
     </section>
 
     <!-- Main component for a primary marketing message or call to action -->
-    <div id="map" class="map">
+    <section id="map" class="map" nav-section="2">
         <h1>Map Goes Here!</h1>
         <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
         <p>
           <a class="btn btn-large btn-primary" href="../../docs/#navbar">View navbar docs &raquo;</a>
         </p>
         
-    </div>
+    </section>
 
     
-	<div class="container marketing">
-      <!-- START THE FEATURETTES -->
+	 <section class="container marketing" id="featurettes" nav-section="3">
 
-      
-      <div class="featurette">
-        <img class="featurette-image img-circle pull-left" alt="512x512" src="{{static_url('img/bus.jpg')}}" style="width: 175px; height: 175px;">		
-        <h2 class="featurette-heading">Bus One, <span class="text-muted">Toronto District</span></h2>
-        <p class="lead">Last reported at <span class="strong">5:13 pm</span> with a speed of <span class="strong">36 km/h</span>.<br />The driver was last tested at <span class="strong">5:00 pm</span> and is <span class="strong">sober</span>.</p>
-      </div>
-      
-      <div class="featurette right">
-        <img class="featurette-image img-circle" alt="512x512" src="{{static_url('img/bus.jpg')}}" style="width: 175px; height: 175px;">		
-        <h2 class="featurette-heading">Bus Two, <span class="text-muted">York Region District</span></h2>
-        <p class="lead">Last reported at <span class="strong">5:13 pm</span> with a speed of <span class="strong" style="color: red;">134 km/h</span>.<br />The driver was last tested at <span class="strong">5:00 pm</span> and is <span class="strong" style="color: red;">over the limit</span>.</p>
-      </div>
+    </section><!-- /.container -->
 
-      <div class="featurette">
-        <img class="featurette-image img-circle pull-left" alt="512x512" src="{{static_url('img/bus.jpg')}}" style="width: 175px; height: 175px;">		
-        <h2 class="featurette-heading">Bus Three, <span class="text-muted">Waterloo Region District</span></h2>
-        <p class="lead">Last reported at <span class="strong">5:13 pm</span> with a speed of <span class="strong">36 km/h</span>.<br />The driver was last tested at <span class="strong">5:00 pm</span> and is <span class="strong">sober</span>.</p>
-      </div>
-      <!-- /END THE FEATURETTES -->
-
-
-      <!-- FOOTER -->
+    <!--
+    <section>
       <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2013 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>Powered by BlueRover</p>
       </footer>
+    </section>
+    -->
+  </div>
 
-    </div><!-- /.container -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>    
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0Tkk9Gd8ploPqjDWEV1-hupHmKT68f0M&sensor=false"></script>
-	<script src="{{static_url('js/bootstrap.js')}}"></script>
+  	<script src="{{static_url('js/bootstrap.js')}}"></script>
     <script src="{{static_url('js/holder.js')}}"></script>
+    
+
+    <script type="text/javascript" src="{{static_url('js/handlebars.runtime.js')}}"></script>
+    <script id="featuretteTemplate" type="text/javascript" src="{{static_url('handlebars/compiled/sensor_template.js')}}"></script>
+
+    <script id="javascript_helpers" type="text/javascript">
+    var numSections = null;
+    var scrollOffset = null;
+
+    function scrollToAnchor(aid){
+      var aTag = $(aid);
+      if (scrollOffset == null) {
+        scrollOffset = -1 * parseInt($("body").attr("data-offset")) + 1;
+      }
+      $('html,body').animate({scrollTop: aTag.offset().top + scrollOffset}, 500);
+    }
+
+    function getActiveSection() {
+      return ($(".navbar-nav .active a").attr("href"));
+    }
+
+    function scrollToPreviousSection() {
+      var active = getActiveSection();
+      var prevSectionNum = $(active).attr("nav-section") - 1;
+
+      if (numSections == null) {
+        numSections = $("[nav-section]").size();
+      }
+
+      if (prevSectionNum > 0) {
+        scrollToAnchor("[nav-section='" + prevSectionNum + "']");
+      }
+      else {
+        scrollToAnchor("[nav-section='" + numSections + "']");
+      }
+    }
+
+    function scrollToNextSection() {
+      var active = getActiveSection();
+      var nextSectionNum = parseInt($(active).attr("nav-section")) + 1;
+
+      if (numSections == null) {
+        numSections = $("[nav-section]").size();
+      }
+
+      if (nextSectionNum <= numSections) {
+        scrollToAnchor("[nav-section='" + nextSectionNum + "']");
+      }
+      else {
+        scrollToAnchor("[nav-section='" + 1 + "']");
+      }
+    }
+    </script>
+
+    <script id="button_handlers" type="text/javascript">
+      var time = new Date().getTime();
+
+      $(document.documentElement).keydown(function (event) {
+        if (event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40) {
+
+          return false;
+        }
+      });
+
+      $(document.documentElement).keyup(function (event) {
+        var now = new Date().getTime();
+
+        // handle cursor keys
+        if (event.keyCode == 37 || event.keyCode == 38) {
+          if (now - time > 500) {
+            scrollToPreviousSection();
+          }
+          time = now;
+          return false;
+        } else if (event.keyCode == 39 || event.keyCode == 40) {
+          if (now - time > 500) {
+            scrollToNextSection();
+          }
+          time = now;
+          return false;
+        }
+      });
+    </script>
+
     <script type="text/javascript">
-	$(document).ready(function(){
+    var featuretteTemplate = Handlebars.templates.sensor_template;
+    console.log($('section'));
+
+    $(document).ready(function(){
+
+      // TEMP HTML FOR NOW...REPLACE WITH REAL DATA
+      var tempHtml = "";
+      for (var i = 1; i < 4; i++) {
+        var data = {
+          id: i,
+          name: "Bus " + i,
+          area: "Toronto District",
+          imgSrc: '{{static_url('img/non_initialized.png')}}',
+          lastReportedTime: "5:30 pm",
+          lastReportedSpeed: "25 km/h",
+          lastTestedTime: "5:29 pm",
+          driverStatus: "not over the limit"
+        };
+
+        tempHtml += featuretteTemplate(data);
+      }
+      $("#featurettes").empty();
+      $("#featurettes").append(tempHtml);
+      // END TEMP HTML
+
+
 	   	// cache the window object
 	   	$window = $(window);
 	   
-	   $('section[data-type="background"]').each(function(){
+      $('section[data-type="background"]').each(function(){
 	     // declare the variable to affect the defined data-type
 	     var $scroll = $(this);
 	                     
@@ -131,9 +226,9 @@
 	        // move the background
 	        $scroll.css({ backgroundPosition: coords });    
 	      }); // end window scroll
-	   });  // end section function
+      });  // end section function
 	   
-	   $('[data-type="foreground"]').each(function(){
+      $('[data-type="foreground"]').each(function(){
 	     // declare the variable to affect the defined data-type
 	     var $scroll = $(this);
 	                     
@@ -148,50 +243,27 @@
 	 
 	        // move the background
 	        $scroll.css({ bottom: coords });    
-	      }); // end window scroll
-	   });  // end section function
+        }); // end window scroll
+      });  // end section function
 	   
-	   //MAP Styling Custom
-	   var styles = [ { "featureType": "landscape", "stylers": [ { "color": "#dddddd" }, { "visibility": "simplified" }, { "saturation": 1 }, 
-
-{ "lightness": 45 } ] },{ "featureType": "road", "elementType": "geometry", "stylers": [ { "visibility": "simplified" }, { 
-
-"color": "#ffffff" } ] },{ "featureType": "road", "elementType": "labels.text", "stylers": [ { "visibility": "on" } ] },{ 
-
-"featureType": "poi", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },{ "featureType": "water", 
-
-"stylers": [ { "color": "#c8c8c8" } ] },{ "featureType": "road.highway", "elementType": "labels", "stylers": [ { 
-
-"visibility": "off" } ] },{ "featureType": "poi", "stylers": [ { "visibility": "off" } ] },{ "featureType": 
-
-"road.arterial", "stylers": [ { "visibility": "off" } ] },{ "featureType": "transit", "stylers": [ { "visibility": "off" } 
-
-] },{ "featureType": "administrative.country", "elementType": "geometry.stroke", "stylers": [ { "visibility": "simplified" 
-
-}, { "color": "#ffffff" } ] },{ "featureType": "administrative.neighborhood", "elementType": "labels", "stylers": [ { 
-
-"visibility": "off" } ] },{ "featureType": "landscape", "elementType": "geometry", "stylers": [ { "weight": 0.1 }, { 
-
-"visibility": "simplified" }, { "color": "#dddddd" }, { "lightness": 45 } ] },{ "featureType": "administrative",
-
-"elementType": "labels.text", "stylers": [ { "weight": 0.1 }, { "color": "#787878" } ] },{ "featureType": 
-
-"administrative", "elementType": "labels.icon", "stylers": [ { "visibility": "off" } ] }];
-	   
-	   
-	   var mapOptions = {
+      //MAP Styling Custom
+      var styles = [ { "featureType": "landscape", "stylers": [ { "color": "#dddddd" }, { "visibility": "simplified" }, { "saturation": 1 }, 
+      { "lightness": 45 } ] },{ "featureType": "road", "elementType": "geometry", "stylers": [ { "visibility": "simplified" }, { "color": "#ffffff" } ] },{ "featureType": "road", "elementType": "labels.text", "stylers": [ { "visibility": "on" } ] },{ "featureType": "poi", "elementType": "geometry", "stylers": [ { "visibility": "off" } ] },{ "featureType": "water", "stylers": [ { "color": "#c8c8c8" } ] },{ "featureType": "road.highway", "elementType": "labels", "stylers": [ { "visibility": "off" } ] },{ "featureType": "poi", "stylers": [ { "visibility": "off" } ] },{ "featureType": "road.arterial", "stylers": [ { "visibility": "off" } ] },{ "featureType": "transit", "stylers": [ { "visibility": "off" } ] },{ "featureType": "administrative.country", "elementType": "geometry.stroke", "stylers": [ { "visibility": "simplified" }, { "color": "#ffffff" } ] },{ "featureType": "administrative.neighborhood", "elementType": "labels", "stylers": [ { "visibility": "off" } ] },{ "featureType": "landscape", "elementType": "geometry", "stylers": [ { "weight": 0.1 }, { "visibility": "simplified" }, { "color": "#dddddd" }, { "lightness": 45 } ] },{ "featureType": "administrative","elementType": "labels.text", "stylers": [ { "weight": 0.1 }, { "color": "#787878" } ] },{ "featureType": "administrative", "elementType": "labels.icon", "stylers": [ { "visibility": "off" } ] }];
+	   	   
+      var mapOptions = {
           center: new google.maps.LatLng(-34.397, 150.644),
           zoom: 8,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           styles:styles,
           scrollwheel:false
         };
-        var map = new google.maps.Map(document.getElementById("map"),
-            mapOptions);
-       
+      var map = new google.maps.Map(document.getElementById("map"),
+          mapOptions);
 	   
-	   
-	}); // close out script
-    </script>
+    }); // close out script
+    </script>    
+    <script src="{{static_url('js/state-machine.js')}}"></script>    
+    <script src="{{static_url('js/markerwithlabel.js')}}"></script>        
+    <script src="{{static_url('js/sobersteering.js')}}"></script>
   </body>
 </html>

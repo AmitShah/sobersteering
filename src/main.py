@@ -12,6 +12,7 @@ from tornado.websocket import WebSocketHandler
 import sys,functools,json
 
 class Observer(object):
+    
     def __init__(self):
         self._observers = []
 
@@ -25,7 +26,7 @@ class Observer(object):
         except ValueError:
             pass
 
-    def notify(self, msg):
+    def notify(self, msg):    
         for observer in self._observers:
             observer(message=msg)
 
@@ -71,6 +72,7 @@ class UpdateHandler(WebSocketHandler):
 
     def open(self):
         UpdateHandler.observer.attach(self)
+        self.packetIndex = 0
         #tornado.ioloop.IOLoop.instance().add_timeout(0.01,  self.loop)
         
     def on_message(self, message):
@@ -80,6 +82,8 @@ class UpdateHandler(WebSocketHandler):
         UpdateHandler.observer.detach(self)
         
     def broadcast_as_json(self,message):
+        #self.packetIndex = (self.packetIndex + 1 )% 256 
+        #dict = ({message:message, 'packetIndex':self.packetIndex})
         self.write_message(json.encoder.encode_basestring(message))
 
     def __call__(self,message=None):

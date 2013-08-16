@@ -9,7 +9,6 @@ body {
 }
 
 
-
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
 
@@ -72,14 +71,27 @@ body {
   margin-right: 10px;
 }
 
+.marketing .featurette:nth-child(even) {
+  text-align: right;
+}
+
+.marketing .featurette:nth-child(odd) .featurette-image {
+  float: left;
+  margin-left: 40px;
+}
+
+.marketing .featurette:nth-child(even) .featurette-image {
+  float: right;
+  margin-right: 40px;
+}
+
 #intro { 
     background: url(../img/bus_friendly.jpg) 50% 0 fixed; 
-    height: auto;  
+    height: 700px;  
     margin: 0 auto; 
     width: 100%; 
     position: relative; 
-    padding-top: 285px;
-    padding-bottom: 285px;
+    padding-top: 250px;
     text-align: center;
     background-size: cover;
     background-repeat: no-repeat;    
@@ -100,14 +112,6 @@ body {
   overflow: hidden; /* Vertically center images part 2: clear their floats. */
 }
 
-.featurette.right {
-	text-align: right;
-}
-
-.featurette.right .featurette-image {
-	float: right;
-	margin-right: 40px;
-}
 .featurette-image {
   margin: 20px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
   width: auto;
@@ -170,6 +174,6 @@ span.strong {
 	width:100%;
 	margin:0;
 	padding:0;
-	height:600px;
+	height:700px;
 
 }
