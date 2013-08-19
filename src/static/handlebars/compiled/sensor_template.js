@@ -22,27 +22,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.area) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.area; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span></h2>\n	<p class=\"lead\">Last reported at <span class=\"strong\">";
+    + "</span></h2>\n	<div class=\"featurette-data\">\n		<span style=\"font-size: 31.5pt;\">";
   if (stack1 = helpers.lastReportedTime) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.lastReportedTime; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span> with a speed of <span class=\"strong\">";
+    + "</span>\n	</div>\n	<div class=\"featurette-data\">\n		<span style=\"font-size: 31.5pt;\">";
   if (stack1 = helpers.lastReportedSpeed) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.lastReportedSpeed; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span>.<br />The driver was last tested at <span class=\"strong\">";
-  if (stack1 = helpers.lastTestedTime) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.lastTestedTime; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</span> and is <span class=\"strong\">";
-  if (stack1 = helpers.driverStatus) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.driverStatus; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</span>. ";
-  if (stack1 = helpers.systemStatus) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.systemStatus; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</p>\n</div>";
+    + "</span>\n	</div>\n</div>";
   return buffer;
   });
 })();

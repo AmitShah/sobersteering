@@ -10,6 +10,25 @@ import os,tornado
 from tornado.httpserver import HTTPServer
 from tornado.websocket import WebSocketHandler
 import sys,functools,json
+from threading import Lock
+
+
+'''helper method to handle casting of improper chars'''
+def ignore_exception(IgnoreException=Exception,DefaultVal=None):
+    """ Decorator for ignoring exception from a function
+    e.g.   @ignore_exception(DivideByZero)
+    e.g.2. ignore_exception(DivideByZero)(Divide)(2/0)
+    """
+    def dec(function):
+        def _dec(*args, **kwargs):
+            try:
+                return function(*args, **kwargs)
+            except IgnoreException:
+                return DefaultVal
+        return _dec
+    return dec
+
+sint = ignore_exception(IgnoreException=ValueError)(int)
 
 class Observer(object):
     
@@ -29,7 +48,42 @@ class Observer(object):
     def notify(self, msg):    
         for observer in self._observers:
             observer(message=msg)
-
+            
+class BufferedObserver(Observer):
+    def __init__(self):
+        Observer.__init__(self)
+        self.buffer = ''
+        self.new_line_count = 0
+    '''we need to protect buffer from async calls :('''        
+    def notify(self,message):
+        try:                        
+            lines = message.split('\r\n')
+            self.new_line_count = self.new_line_count + len(lines)
+            if self.new_line_count ==4:  
+                self.new_line_count = 0
+                return
+            
+            if self.new_line_count <= 2:
+                self.buffer= self.buffer + lines[1]
+            elif self.new_line_count == 3:
+                Observer.notify(self, lines[1])
+                self.buffer = ''
+                self.new_line_count = 0
+            else:
+                self.new_line_count = 0
+        except:
+            pass
+        finally:
+            pass
+        '''self.buffer.insert(self.packet_index,message)
+        if len(message) < self.packet_size:             
+            Observer.notify(self,''.join(self.buffer))
+            #lets reset the buffer
+            self.packet_index = 0            
+            self.buffer = []
+        self.packet_index = (self.packet_index + 1) % 256
+        pass'''
+    
 class BaseHandler(tornado.web.RequestHandler):
         
     def initialize(self,event_service,account_service,configuration_service):
@@ -68,11 +122,11 @@ class LogoutHandler(BaseHandler):
         self.redirect(u"/login")
         
 class UpdateHandler(WebSocketHandler):
-    observer = Observer()
-
+    observer = BufferedObserver()
+    
     def open(self):
         UpdateHandler.observer.attach(self)
-        self.packetIndex = 0
+        self.packetIndex = 0        
         #tornado.ioloop.IOLoop.instance().add_timeout(0.01,  self.loop)
         
     def on_message(self, message):
@@ -82,8 +136,6 @@ class UpdateHandler(WebSocketHandler):
         UpdateHandler.observer.detach(self)
         
     def broadcast_as_json(self,message):
-        #self.packetIndex = (self.packetIndex + 1 )% 256 
-        #dict = ({message:message, 'packetIndex':self.packetIndex})
         self.write_message(json.encoder.encode_basestring(message))
 
     def __call__(self,message=None):
@@ -92,6 +144,12 @@ class UpdateHandler(WebSocketHandler):
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('index.html')
+
+def resource_path(relative):
+    return os.path.join(sys._MEIPASS,
+        relative)
+    
+    
                 
 if __name__ == '__main__':
     

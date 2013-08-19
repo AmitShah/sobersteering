@@ -53,7 +53,7 @@
 				   
 	   
 		    var mapOptions = {
-	          center: new google.maps.LatLng(-34.397, 150.644),
+	          center: new google.maps.LatLng(43.46425, -80.5204),
 	          zoom: 8,
 	          mapTypeId: google.maps.MapTypeId.ROADMAP,
 	          styles:styles,
@@ -63,22 +63,36 @@
 	            mapOptions);
 	       
 			 
-			var redicon = 
+			var pinkicon = 
 		    new google.maps.MarkerImage(
 		      '/static/img/marker_icon_pink.png', 
-		      new google.maps.Size(30, 38),
+		      new google.maps.Size(30, 70),
 		      // The origin for this image is 0,0.
 		      new google.maps.Point(0,0),
 		      // The anchor for this image is the base of the flagpole at 0,32.
-		      new google.maps.Point(12, 38));
+		      new google.maps.Point(15, 35));
 		    var blueicon = 
 		    new google.maps.MarkerImage(
 		      '/static/img/marker_icon_blue.png', 
-		      new google.maps.Size(30, 38),
+		      new google.maps.Size(30, 70),
 		      // The origin for this image is 0,0.
-		      new google.maps.Point(0,38),
+		      new google.maps.Point(0,0),
 		      // The anchor for this image is the base of the flagpole at 0,32.
-		      new google.maps.Point(12, 38));
+		      new google.maps.Point(15, 35));
+		    var orangeicon = new google.maps.MarkerImage(
+		      '/static/img/marker_icon_orange.png', 
+		      new google.maps.Size(30, 70),
+		      // The origin for this image is 0,0.
+		      new google.maps.Point(0,0),
+		      // The anchor for this image is the base of the flagpole at 0,32.
+		      new google.maps.Point(15, 35));
+		    var greyicon = new google.maps.MarkerImage(
+		      '/static/img/marker_icon_grey.png', 
+		      new google.maps.Size(30, 70),
+		      // The origin for this image is 0,0.
+		      new google.maps.Point(0,0),
+		      // The anchor for this image is the base of the flagpole at 0,32.
+		      new google.maps.Point(15, 35));
 		    
 			var createMarkerFactory = function(map,label){
 				var marker = new MarkerWithLabel({
@@ -104,38 +118,91 @@
 			}
 			
 			var updateIcon = function(marker,state){
-				if(state == 10.1 || state == 10.1-3.2 || (state >= 10.4 && state <=10.7)|| (state >= 10.4-3.2 && state <=10.7-3.2)){
+				/*if(state == 10.1 || state == 10.1-3.2 || (state >= 10.4 && state <=10.7)|| (state >= 10.4-3.2 && state <=10.7-3.2)){
                         marker.setIcon(redicon); 
                	}else if ((state >= 9.7 && state <=10.0) || (state >= 10.2 && state <=10.3) ||
 	                (state >= 9.7-3.2 && state <=10.0-3.2) ||(state >= 10.2-3.2 && state <=10.3-3.2)){
 	                marker.setIcon(blueicon); 	                
+               	}else{
+                    marker.setIcon(greyicon);
+      	        }*/
+               	switch(state){
+               		case 7.1:
+	               		marker.setIcon(pinkicon);
+	               		break;
+               		case 7.2:
+               			marker.setIcon(blueicon);
+               			break;	
+               		case 7.6:
+               			marker.setIcon(orangeicon);
+               			break;
+               		default:
+               			marker.setIcon(greyicon);
                	}
-                else{
-                    marker.setIcon(blueicon);
-      	        }
+               	
+               
 			};
+			
+			var updateTemplate= function(packet){
+				var data = {
+			        id: packet.deviceID,
+			        name: packet.deviceID,
+			        area: "District",
+			        //TODO: use moment, and hit andrew dump
+			        lastReportedTime: (new Date()+'').substring(0,21),
+			        lastReportedSpeed: packet.speedKPH + " km/h",
+			    };
+				switch(packet.rfidTemperature){
+               		case 7.1:
+               			data.imgSrc = '/static/img/exclamation.png';
+	               		break;
+               		case 7.2:
+               			data.imgSrc = '/static/img/checkmark.png';
+               			break;	
+               		case 7.6:
+               			data.imgSrc = '/static/img/override.png';
+               			break;
+               		case 7.7:
+               			data.imgSrc = '/static/img/failure.png';
+               			break;
+               		default:
+               			data.imgSrc = '/static/img/non_initialized.png';
+               			
+               			
+               	}
+               	var templateHtml = Handlebars.templates.sensor_template(data);
+               	var featurette = $("#featurette_"+packet.deviceID);
+               	if (featurette.length === 0){
+               		$("#featurettes").append(templateHtml);
+               	}else{
+			    	featurette.replaceWith(templateHtml);
+				}
+			}
 			
 			var markers = {};
 			var handle = function(data){					
 					if(data.latitude  && data.longitude){
 						if (!markers.hasOwnProperty(data['deviceID']) ){
 							markers[data['deviceID']] = createMarkerFactory(map,data.deviceID);					
-						}					
+						}	
+										
 						updatePosition(markers[data['deviceID']], parseFloat(data.latitude),parseFloat(data.longitude));
-						if(data.statusCode){
-							updateIcon(markers[data['deviceID']]), parseInt(data.statusCode));
-						}
-					}										
+						
+					}	
+					if(data.rfidTemperature){
+						updateIcon(markers[data['deviceID']], parseFloat(data.rfidTemperature));
+						updateTemplate(data);
+					}									
 				};
 				
-			var handleData= function(data){	 	
+			var handleData= function(dataPacket){	 	
 				if(dataPacket instanceof Array){
 			       			for(var p in dataPacket){
 			       				handle(dataPacket[p]);
 			       			}
-			       		}else{
-			       			handle(dataPacket);
-			       		}				
+				}else{
+			    	handle(dataPacket);
+				}				
 			};
     	
     		
@@ -152,22 +219,13 @@
 		    { 
 		     try{
 		     		var buffer = $.parseJSON(event.data);		     		
-		     		var lines = buffer.split(/\r?\n/g);
-			       	var bytes = parseInt(lines[0]);
-			       	dataBuffer+= lines[1];		
-			       	/*ensure a full packet is sent by server before calling, still no account for out of order messaging*/       						       	
-			       	if(bytes >2 && bytes <4096){
-			       		
-			       		dataPacket = $.parseJSON(dataBuffer);
-			       		handleData(dataPacket);
-			       		dataBuffer = '';			       			
-			        }
-			       	lines = null;
-			       	
+		     		if(buffer && buffer !== ''){
+		     			handle($.parseJSON(buffer));
+		     		}
+		     		
 		       }catch(err)
 		       {
-		       		//we need to release the databuffer, we may have lost the event :(
-			  		dataBuffer = '';
+		       		//we need to release the databuffer, we may have lost the event :(			  		
 		       }
 
 

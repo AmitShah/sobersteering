@@ -85,6 +85,17 @@ body {
   margin-right: 40px;
 }
 
+.featurette-data {
+  display: inline-block; 
+  vertical-align: middle;
+  padding: 5px;
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  font-size: 1.5em;
+  text-align: center;
+}
+
 #intro { 
     background: url(../img/bus_friendly.jpg) 50% 0 fixed; 
     height: 700px;  

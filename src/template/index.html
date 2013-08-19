@@ -70,17 +70,13 @@
 
     <!-- Main component for a primary marketing message or call to action -->
     <section id="map" class="map" nav-section="2">
-        <h1>Map Goes Here!</h1>
-        <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>
-          <a class="btn btn-large btn-primary" href="../../docs/#navbar">View navbar docs &raquo;</a>
-        </p>
-        
+        <h1>Can't connect to google maps!</h1>
+        <p>Check your internet connectivity...</p>
     </section>
 
     
-	 <section class="container marketing" id="featurettes" nav-section="3">
-
+	<section class="container marketing" id="featurettes" nav-section="3">
+		
     </section><!-- /.container -->
 
     <!--
@@ -188,26 +184,7 @@
     $(document).ready(function(){
 
       // TEMP HTML FOR NOW...REPLACE WITH REAL DATA
-      var tempHtml = "";
-      for (var i = 1; i < 4; i++) {
-        var data = {
-          id: i,
-          name: "Bus " + i,
-          area: "Toronto District",
-          imgSrc: '{{static_url('img/non_initialized.png')}}',
-          lastReportedTime: "5:30 pm",
-          lastReportedSpeed: "25 km/h",
-          lastTestedTime: "5:29 pm",
-          driverStatus: "not over the limit"
-        };
-
-        tempHtml += featuretteTemplate(data);
-      }
-      $("#featurettes").empty();
-      $("#featurettes").append(tempHtml);
-      // END TEMP HTML
-
-
+      
 	   	// cache the window object
 	   	$window = $(window);
 	   
@@ -261,9 +238,9 @@
           mapOptions);
 	   
     }); // close out script
-    </script>    
+    </script>
     <script src="{{static_url('js/state-machine.js')}}"></script>    
     <script src="{{static_url('js/markerwithlabel.js')}}"></script>        
-    <script src="{{static_url('js/sobersteering.js')}}"></script>
+    <script src="{{static_url('js/sobersteering.js')}}"></script>    
   </body>
 </html>
