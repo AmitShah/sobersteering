@@ -11,7 +11,7 @@ from tornado.httpserver import HTTPServer
 from tornado.websocket import WebSocketHandler
 import sys,functools,json
 from threading import Lock
-
+import notification
 
 '''helper method to handle casting of improper chars'''
 def ignore_exception(IgnoreException=Exception,DefaultVal=None):
@@ -34,6 +34,7 @@ class Observer(object):
     
     def __init__(self):
         self._observers = []
+        self.notification = notification.Notification()
 
     def attach(self, observer):
         if not observer in self._observers:
@@ -45,9 +46,15 @@ class Observer(object):
         except ValueError:
             pass
 
-    def notify(self, msg):    
-        for observer in self._observers:
-            observer(message=msg)
+    def notify(self, msg): 
+        try:   
+            for observer in self._observers:
+                observer(message=msg)
+            event = json.loads(msg)
+            print event['rfidTemperature']            
+            body = self.notification.write_message(event)
+        except:
+            print sys.exc_info()[0]
             
 class BufferedObserver(Observer):
     def __init__(self):
@@ -86,7 +93,7 @@ class BufferedObserver(Observer):
     
 class BaseHandler(tornado.web.RequestHandler):
         
-    def initialize(self,event_service,account_service,configuration_service):
+    def initialize(self,event_service,account_service,configuration_service,notification_service):
         self.event_service = event_service
         self.account_service = account_service
         self.configuration_service = configuration_service
@@ -145,12 +152,7 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.render('index.html')
 
-def resource_path(relative):
-    return os.path.join(sys._MEIPASS,
-        relative)
-    
-    
-                
+            
 if __name__ == '__main__':
     
     api = Api(token='a8joj2YQbNagavsVVxy61NESKk+96IutuUKl7f/5',
@@ -199,7 +201,8 @@ if __name__ == '__main__':
     services = dict(
         event_service = database.StateService(database.CONNECTION_STRING),\
         configuration_service = database.ConfigurationService(database.CONNECTION_STRING),\
-        account_service = database.AccountService(database.CONNECTION_STRING)
+        account_service = database.AccountService(database.CONNECTION_STRING),
+        
         )
     
     settings = dict(

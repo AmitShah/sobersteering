@@ -127,10 +127,10 @@
                     marker.setIcon(greyicon);
       	        }*/
                	switch(state){
-               		case 7.1:
+               		case 7.2:
 	               		marker.setIcon(pinkicon);
 	               		break;
-               		case 7.2:
+               		case 7.1:
                			marker.setIcon(blueicon);
                			break;	
                		case 7.6:
@@ -153,10 +153,10 @@
 			        lastReportedSpeed: packet.speedKPH + " km/h",
 			    };
 				switch(packet.rfidTemperature){
-               		case 7.1:
+               		case 7.2:
                			data.imgSrc = '/static/img/exclamation.png';
 	               		break;
-               		case 7.2:
+               		case 7.1:
                			data.imgSrc = '/static/img/checkmark.png';
                			break;	
                		case 7.6:
@@ -187,10 +187,9 @@
 						}	
 										
 						updatePosition(markers[data['deviceID']], parseFloat(data.latitude),parseFloat(data.longitude));
-						
+						updateIcon(markers[data['deviceID']], parseFloat(data.rfidTemperature));
 					}	
 					if(data.rfidTemperature){
-						updateIcon(markers[data['deviceID']], parseFloat(data.rfidTemperature));
 						updateTemplate(data);
 					}									
 				};
