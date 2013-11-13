@@ -31,11 +31,11 @@ class Notification(object):
     def write_message(self,event):
         topicarn = self.topicarn[event['deviceID']]
         if(event['rfidTemperature'] == 7.2):
-            msg = "alcohol above limit on %s @ %s,%s" % (self.displayname[event['deviceID']],event['timestamp'],event['latitude'],event['longitude'])
+            msg = "alcohol detected on %s " % (self.displayname[event['deviceID']])
             self.sns.publish(topic=topicarn,
                              message=msg)
         if(event['rfidTemperature'] == 7.6):
-            msg = "override on %s @ %s,%s" % (self.displayname[event['deviceID']],event['timestamp'],event['latitude'],event['longitude'])
+            msg = "override on %s" % (self.displayname[event['deviceID']])#,event['timestamp'],event['latitude'],event['longitude'])
             self.sns.publish(topic=topicarn,
                              message=msg)
 
